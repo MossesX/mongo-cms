@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<meta>
+	<models>
+		<model name="User">
+			<references>
+				<reference property="id" key="id" />
+				<reference property="name" />
+				<reference property="password" />
+			</references>
+			<relations>
+				<relation type="one" property="group" model="Group" localProperty="id" foreignProperty="user_id" />
+			</relations>
+		</model>
+		<model name="Group">
+			<references>
+				<reference property="id" key="id" />
+				<reference property="name" />
+			</references>
+			<relations>
+				<relation type="many" property="users" model="User" localProperty="user_id" foreignProperty="id" />
+			</relations>
+		</model>
+	</models>
+</meta>
