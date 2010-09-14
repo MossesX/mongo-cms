@@ -8,9 +8,9 @@ class Reference extends Options
 {
 	protected $_type;
 	protected $_key;
-	protected $_field;
-	protected $_localField;
-	protected $_foreignField;
+	protected $_property;
+	protected $_localproperty;
+	protected $_foreignProperty;
 
 	public function getKey()
 	{
