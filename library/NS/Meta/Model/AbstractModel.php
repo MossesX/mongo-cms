@@ -1,10 +1,10 @@
 <?php
 
-namespace NS\Meta;
+namespace NS\Meta\Model;
 
 use \NS\Core\Cls\Fluent\Options;
 
-abstract class Model extends Options
+abstract class AbstractModel extends Options
 {
 	/**
 	 * Filling model properties from array
