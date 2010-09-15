@@ -8,11 +8,6 @@ class Reference extends AbstractProperty
 	{
 		$this->_type = Type::create()->setType($strType);
 	}
-
-	public function getProperty()
-	{
-		return $this->_property ? $this->_property : $this->_key;
-	}
 	
 	public function fromString($value)
 	{

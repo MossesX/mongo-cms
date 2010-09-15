@@ -3,6 +3,7 @@
 namespace NS\Meta\Model;
 
 use \NS\Meta\Property\Reference;
+use \NS\Meta\Property\Relation;
 
 abstract class Model extends AbstractModel
 {
@@ -13,6 +14,12 @@ abstract class Model extends AbstractModel
 	protected $_references = array();
 
 	/**
+	 * Relations
+	 * @var array
+	 */
+	protected $_relations = array();
+
+	/**
 	 * Add reference
 	 *
 	 * @param Reference
@@ -21,6 +28,18 @@ abstract class Model extends AbstractModel
 	public function addReference(Reference $reference)
 	{
 		$this->_references[$reference->getKey()] = $reference;
+		return $this;
+	}
+
+	/**
+	 * Add relation
+	 *
+	 * @param Relation
+	 * @return Model
+	 */
+	public function addRelation(Relation $relation)
+	{
+		$this->_relations[$relation->getKey()] = $relation;
 		return $this;
 	}
 
@@ -36,6 +55,19 @@ abstract class Model extends AbstractModel
 		foreach ($this->_references as $key => $reference)
 			if (isset($array[$key]))
 				$this->setProperty($reference->getProperty(), $reference->fromString($array[$key]));
+
+		// Relations
+		foreach ($this->_relations as $key => $relation){
+			if ($relation->getType() == Relation::TYPE_ONE){
+				if (isset($array[$key]) && is_array($array[$key]) && count($array[$key])){
+					$className = $relation->getModel();
+					$model = new $className;
+					$model->setProperty($relation->getForeignProperty(), $this->getProperty($relation->getLocalProperty()));
+					$model->fromArray($array[$key]);
+					$this->setProperty($relation->getProperty(), $model);
+				}
+			}
+		}
 	}
 
 	/**
