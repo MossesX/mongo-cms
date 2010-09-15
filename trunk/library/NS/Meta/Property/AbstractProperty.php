@@ -19,4 +19,14 @@ abstract class AbstractProperty extends Options
 	{
 		return $this->_key ? $this->_key : $this->_property;
 	}
+
+	/**
+	 * Property getter
+	 * 
+	 * @return string
+	 */
+	public function getProperty()
+	{
+		return $this->_property ? $this->_property : $this->_key;
+	}
 }

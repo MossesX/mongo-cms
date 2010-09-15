@@ -23,13 +23,22 @@ class IndexController extends Zend_Controller_Action
 
 		$u = new User();
 		$u->fromArray(array(
-			'id' => 'asdfasdf',
+			'id' => '123',
 			'name' => 'UserName',
 			'password' => md5('123'),
-			'someOtherValue' => 'value12313123'
+			'someOtherValue' => 'value12313123',
+			'isAdmin' => '1',
+			'group' => array(
+				'id' => '456',
+				'name' => 'Admins'
+			)
 		));
 
-		var_dump($u->toArray());
+		?><pre><?
+
+		var_dump($u);
+
+		?></pre><?
 
 		die();
 	}

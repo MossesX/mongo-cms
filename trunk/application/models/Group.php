@@ -4,15 +4,13 @@ use \NS\Meta\Model\Model;
 use \NS\Meta\Property\Reference;
 use \NS\Meta\Property\Relation;
 
-class User extends Model
+class Group extends Model
 {
 	protected $_id;
 	protected $_name;
-	protected $_password;
-	protected $_isAdmin = false;
+	protected $_userID;
 
-	protected $_group;
-
+	protected $_users;
 
 	public function __construct()
 	{
@@ -27,22 +25,14 @@ class User extends Model
 				'key' => 'name',
 				'type' => 'varchar(50)'
 			)))
-			->addReference(Reference::create(array(
-				'key' => 'password',
-				'type' => 'varchar(50)'
-			)))
-			->addReference(Reference::create(array(
-				'key' => 'isAdmin',
-				'type' => 'boolean'
-			)))
 
 			// Relations
 			->addRelation(Relation::create(array(
-				'key' => 'group',
-				'type' => Relation::TYPE_ONE,
-				'model' => 'Group',
-				'localProperty' => 'id',
-				'foreignProperty' => 'userID'
+				'key' => 'users',
+				'type' => Relation::TYPE_MANY,
+				'model' => 'User',
+				'localProperty' => 'userID',
+				'foreignProperty' => 'id',
 			)));
 	}
 }

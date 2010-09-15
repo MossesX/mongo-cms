@@ -2,7 +2,7 @@
 
 namespace NS\Meta\Property;
 
-abstract class Relation extends AbstractProperty
+class Relation extends AbstractProperty
 {
 	const TYPE_ONE = 'one';
 	const TYPE_MANY = 'many';
