@@ -3,9 +3,9 @@
 	<models>
 		<model name="User">
 			<references>
-				<reference property="id" key="id" />
-				<reference property="name" />
-				<reference property="password" />
+				<reference type="int" property="id" key="id" />
+				<reference type="varchar(50)" property="name" />
+				<reference type="password(md5)" property="password" />
 			</references>
 			<relations>
 				<relation type="one" property="group" model="Group" localProperty="id" foreignProperty="user_id" />
@@ -13,8 +13,8 @@
 		</model>
 		<model name="Group">
 			<references>
-				<reference property="id" key="id" />
-				<reference property="name" />
+				<reference type="int" property="id" key="id" />
+				<reference type="varchar(50)" property="name" />
 			</references>
 			<relations>
 				<relation type="many" property="users" model="User" localProperty="user_id" foreignProperty="id" />
