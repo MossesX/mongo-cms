@@ -60,14 +60,16 @@ abstract class Model extends AbstractModel
 		foreach ($this->_relations as $key => $relation){
 			if ($relation->getType() == Relation::TYPE_ONE){
 				if (isset($array[$key]) && is_array($array[$key]) && count($array[$key])){
-					$className = $relation->getModel();
-					$model = new $className;
-					$model->setProperty($relation->getForeignProperty(), $this->getProperty($relation->getLocalProperty()));
-					$model->fromArray($array[$key]);
-					$this->setProperty($relation->getProperty(), $model);
+					$relModel = $relation->getModel();
+					$relModel = $relModel::create()
+						->setProperty($relation->getForeignProperty(), $this->getProperty($relation->getLocalProperty()))
+						->fromArray($array[$key]);
+					$this->setProperty($relation->getProperty(), $relModel);
 				}
 			}
 		}
+
+		return $this;
 	}
 
 	/**
@@ -82,6 +84,15 @@ abstract class Model extends AbstractModel
 		// References
 		foreach ($this->_references as $key => $reference)
 			$res[$key] = $reference->toString($this->getProperty($key));
+
+		// Relations
+		foreach ($this->_relations as $key => $relation){
+			if ($relation->getType() == Relation::TYPE_ONE){
+				$relModel = $this->getProperty($key);
+				if ($relModel)
+					$res[$key] = $relModel->toArray();
+			}
+		}
 
 		return $res;
 	}
