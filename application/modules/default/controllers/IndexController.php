@@ -36,7 +36,7 @@ class IndexController extends Zend_Controller_Action
 
 		?><pre><?
 
-		var_dump($u);
+		var_dump($u->toArray());
 
 		?></pre><?
 
