@@ -8,6 +8,7 @@ abstract class AbstractProperty extends Options
 {
 	protected $_property;
 	protected $_key;
+	protected $_type;
 
 	/**
 	 * Key getter
