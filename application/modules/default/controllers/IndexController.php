@@ -21,6 +21,16 @@ class IndexController extends Zend_Controller_Action
 		//$dm->persist($lang);
 		//$dm->flush();
 
+		$u = new User();
+		$u->fromArray(array(
+			'id' => 'asdfasdf',
+			'name' => 'UserName',
+			'password' => md5('123'),
+			'someOtherValue' => 'value12313123'
+		));
+
+		var_dump($u->toArray());
+
 		die();
 	}
 
