@@ -24,13 +24,13 @@ class Registry extends Singleton
 	/**
 	 * Add reference
 	 *
-	 * @param Model $model
+	 * @param Model|string $model
 	 * @param Reference $reference
 	 * @return Registry
 	 */
-	public function addReference(Model $model, Reference $reference)
+	public function addReference($model, Reference $reference)
 	{
-		$className = get_class($model);
+		$className = is_string($model) ? $model : get_class($model);
 		if (!isset($this->_references[$className]))
 			$this->_references[$className] = array();
 		
@@ -41,11 +41,11 @@ class Registry extends Singleton
 	/**
 	 * Add references array
 	 *
-	 * @param Model $model
+	 * @param Model|string $model
 	 * @param array
 	 * @return Registry
 	 */
-	public function addReferences(Model $model, array $references)
+	public function addReferences($model, array $references)
 	{
 		foreach ($references as $ref)
 			$this->addReference($model, $ref);
@@ -55,40 +55,40 @@ class Registry extends Singleton
 	/**
 	 * Retrieves references
 	 *
-	 * @param Model $model
+	 * @param Model|string $model
 	 * @return array
 	 */
-	public function getReferences(Model $model)
+	public function getReferences($model)
 	{
-		$className = get_class($model);
+		$className = is_string($model) ? $model : get_class($model);
 		return isset($this->_references[$className]) ? $this->_references[$className] : array();
 	}
 
 	/**
 	 * Add relation
 	 *
-	 * @param Model $model
+	 * @param Model|string $model
 	 * @param Relation $relation
 	 * @return Model
 	 */
-	public function addRelation(Model $model, Relation $relation)
+	public function addRelation($model, Relation $relation)
 	{
-		$className = get_class($model);
+		$className = is_string($model) ? $model : get_class($model);
 		if (!isset($this->_relations[$className]))
 			$this->_relations[$className] = array();
 
-		$this->_relations[$className][$relation->getKey()] = $relation;
+		$this->_relations[$className][$relation->getProperty()] = $relation;
 		return $this;
 	}
 
 	/**
 	 * Add relations array
 	 *
-	 * @param Model $model
+	 * @param Model|string $model
 	 * @param array
 	 * @return Registry
 	 */
-	public function addRelations(Model $model, array $relations)
+	public function addRelations($model, array $relations)
 	{
 		foreach ($relations as $rel)
 			$this->addRelation($model, $rel);
@@ -98,12 +98,26 @@ class Registry extends Singleton
 	/**
 	 * Retrieves relations
 	 *
-	 * @param Model $model
+	 * @param Model|string $model
 	 * @return array
 	 */
-	public function getRelations(Model $model)
+	public function getRelations($model)
 	{
-		$className = get_class($model);
+		$className = is_string($model) ? $model : get_class($model);
 		return isset($this->_relations[$className]) ? $this->_relations[$className] : array();
+	}
+
+	/**
+	 * Retrieves relation
+	 *
+	 * @param Model|string $model
+	 * @param string $property
+	 * @return Relation
+	 */
+	public function getRelation($model, $property)
+	{
+		$className = is_string($model) ? $model : get_class($model);
+		return isset($this->_relations[$className]) && isset($this->_relations[$className][$property]) ?
+			$this->_relations[$className][$property] : null;
 	}
 }

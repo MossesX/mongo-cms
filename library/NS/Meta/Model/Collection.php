@@ -2,26 +2,67 @@
 
 namespace NS\Meta\Model;
 
+use \NS\Meta\Registry;
 use \NS\Meta\Property\Reference;
 use \NS\Meta\Property\Relation;
 use \NS\Meta\Model\Model;
 
-abstract class Collection extends AbstractModel implements SeekableIterator, Countable, ArrayAccess
+abstract class Collection extends AbstractModel implements \SeekableIterator, \Countable, \ArrayAccess
 {
+	/**
+	 * Model
+	 * @var string
+	 */
+	protected $_model;
+
 	/**
 	 * Models
 	 * @var array
 	 */
-	protected $_models = array();
+	public $_models = array();
+
+	/**
+	 * Constructor
+	 *
+	 * @param array $models
+	 */
+	public function __construct(array $models = null)
+	{
+		// Trying to build collection from array
+		if (!is_null($models))
+			$this->fromArray($models);
+	}
 
 	/**
 	 * Filling model properties from array
 	 *
 	 * @param array $array
-	 * @return Model
+	 * @return Collection
 	 */
 	public function fromArray(array $array)
 	{
+		if (!class_exists($this->_model))
+			throw new ClassNotFound($this->_model);
+
+		$className = $this->_model;
+		foreach ($array as $arrModel){
+			if (is_array($arrModel) && count($arrModel))
+				$this->addModel($className::create()->fromArray($arrModel));
+			else if (is_a($arrModel, $this->_model))
+				$this->addModel($model);
+		}
+		return $this;
+	}
+
+	/**
+	 * Add model
+	 *
+	 * @param Model $model
+	 * @return Collection
+	 */
+	public function addModel(Model $model)
+	{
+		$this->_models[] = $model;
 		return $this;
 	}
 
@@ -35,6 +76,47 @@ abstract class Collection extends AbstractModel implements SeekableIterator, Cou
 		$res = array();
 
 		return $res;
+	}
+
+	/**
+	 * Call
+	 *
+	 * @param string $name
+	 * @param array $arguments
+	 * @return mixed
+	 *
+	 * @thows \NS\Core\Cls\Exception\PropertyNotFound
+	 * @thows \NS\Core\Cls\Exception\MethodNotFound
+	 */
+	public function __call($name, $arguments)
+	{
+		$prefix = substr($name, 0, 3);
+		$relCollection = $arguments[0];
+		if ($prefix == 'set' && is_subclass_of($relCollection, '\NS\Meta\Model\Collection')) {
+			$property = substr($name, 3);
+			$property = strtolower($property[0]) . substr($property, 1);
+			$rel = Registry::getInstance()->getRelation($this->_model, $property);
+			if ($rel) {
+				if ($rel->getType() == Relation::TYPE_MANY){
+					$cls = get_class($relCollection);
+					$col = $cls::create();
+					foreach ($this as $model){
+						throw new \NS\Meta\Exception('TODO HERE infinite loop :(');
+						foreach ($relCollection as $relModel){
+							if ($relModel && $model->getProperty($rel->getLocalProperty()) == $relModel->getProperty($rel->getForeignProperty())){
+								//$col->addModel($relModel);
+								break;
+							}
+						}
+					}
+
+					if (count($col))
+						$model->setProperty($rel->getLocalProperty(), $col);
+				}
+			}
+		}
+
+		parent::__call($name, $arguments);
 	}
 
     /**
@@ -95,7 +177,8 @@ abstract class Collection extends AbstractModel implements SeekableIterator, Cou
 	 */
 	public function valid()
 	{
-		return $this->key() >= 0 && $this->key() < $this->count();
+		$k = $this->key();
+		return $k >= 0 && $k < $this->count();
 	}
 
 	/**
