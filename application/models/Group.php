@@ -1,5 +1,6 @@
 <?php
 
+use \NS\Meta\Registry;
 use \NS\Meta\Model\Model;
 use \NS\Meta\Property\Reference;
 use \NS\Meta\Property\Relation;
@@ -14,25 +15,27 @@ class Group extends Model
 
 	public function __construct()
 	{
-		$this
-
+		Registry::getInstance()
 			// References
-			->addReference(Reference::create(array(
-				'key' => 'id',
-				'type' => 'int'
-			)))
-			->addReference(Reference::create(array(
-				'key' => 'name',
-				'type' => 'varchar(50)'
-			)))
-
+			->addReferences($this, array(
+				Reference::create(array(
+					'key' => 'id',
+					'type' => 'int'
+				)),
+				Reference::create(array(
+					'key' => 'name',
+					'type' => 'varchar(50)'
+				))
+			))
 			// Relations
-			->addRelation(Relation::create(array(
-				'key' => 'users',
-				'type' => Relation::TYPE_MANY,
-				'model' => 'User',
-				'localProperty' => 'userID',
-				'foreignProperty' => 'id',
-			)));
+			->addRelations($this, array(
+				Relation::create(array(
+					'key' => 'users',
+					'type' => Relation::TYPE_MANY,
+					'model' => 'User',
+					'localProperty' => 'userID',
+					'foreignProperty' => 'id',
+				))
+			));
 	}
 }
