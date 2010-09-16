@@ -2,12 +2,30 @@
 
 namespace NS\Meta\Model;
 
+use \NS\Core\Cls\Exception\ClassNotFound;
 use \NS\Meta\Registry;
 use \NS\Meta\Property\Reference;
 use \NS\Meta\Property\Relation;
 
 abstract class Model extends AbstractModel
 {
+	/**
+	 * Constructor
+	 *
+	 * @param array $properties
+	 */
+	public function __construct(array $properties = null)
+	{
+		// Meta registry initialization
+		if (!class_exists('\MetaRegistry'))
+			throw new ClassNotFound('\MetaRegistry');
+		\MetaRegistry::init();
+
+		// Trying to build model from array
+		if (!is_null($properties))
+			$this->fromArray($properties);
+	}
+
 	/**
 	 * Filling model properties from array
 	 *
@@ -31,11 +49,12 @@ abstract class Model extends AbstractModel
 
 					// Relation model
 					$relModel = $rel->getModel();
-					$relModel = $relModel::create()
-						// Setting foreign key property by default
-						->setProperty($rel->getForeignProperty(), $this->getProperty($rel->getLocalProperty()))
-						// Setting other properties from array
-						->fromArray($array[$key]);
+					$relModel = $relModel::create()->fromArray($array[$key]);
+
+					// Setting foreign key property by default
+					$lp = $rel->getLocalProperty();
+					if (is_null($this->getProperty($lp)))
+						$this->setProperty($lp, $relModel->getProperty($rel->getForeignProperty()));
 
 					// Setting base model property
 					$this->setProperty($rel->getProperty(), $relModel);

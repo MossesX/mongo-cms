@@ -14,30 +14,58 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
-		//$lang = new Core\Language($name);
-		//$lang = new Language('en');
-
-		//$dm = Zend_Registry::get('dm');
-		//$dm->persist($lang);
-		//$dm->flush();
-
-		$u = new User();
-		$u->fromArray(array(
-			'id' => '123',
-			'name' => 'UserName',
-			'password' => md5('123'),
-			'someOtherValue' => 'value12313123',
-			'isAdmin' => '1',
-			'group' => array(
-				'id' => '456',
-				'name' => 'Admins'
+		$users = new UserCollection(array(
+			array(
+				'id' => 1,
+				'name' => 'Admin#1',
+				'groupID' => 1
+			),
+			array(
+				'id' => 2,
+				'name' => 'Admin#2',
+				'groupID' => 1
+			),
+			array(
+				'id' => 3,
+				'name' => 'Admin#3',
+				'groupID' => 1
+			),
+			array(
+				'id' => 4,
+				'name' => 'User#4',
+				'groupID' => 3
+			),
+			array(
+				'id' => 5,
+				'name' => 'User#5',
+				'groupID' => 3
+			),
+			array(
+				'id' => 6,
+				'name' => 'Guest#6',
+				'groupID' => 2
 			)
 		));
 
+		$groups = new GroupCollection(array(
+			array(
+				'id' => 1,
+				'name' => 'Admins'
+			),
+			array(
+				'id' => 2,
+				'name' => 'Guests'
+			),
+			array(
+				'id' => 3,
+				'name' => 'Users'
+			)
+		));
+
+		$groups->setUsers($users);
+
 		?><pre><?
-
-		var_dump($u);
-
+		var_dump($groups);
 		?></pre><?
 
 		die();
