@@ -1,5 +1,6 @@
 <?php
 
+use \NS\Meta\Registry;
 use \NS\Meta\Model\Model;
 use \NS\Meta\Property\Reference;
 use \NS\Meta\Property\Relation;
@@ -16,33 +17,35 @@ class User extends Model
 
 	public function __construct()
 	{
-		$this
-
+		Registry::getInstance()
 			// References
-			->addReference(Reference::create(array(
-				'key' => 'id',
-				'type' => 'int'
-			)))
-			->addReference(Reference::create(array(
-				'key' => 'name',
-				'type' => 'varchar(50)'
-			)))
-			->addReference(Reference::create(array(
-				'key' => 'password',
-				'type' => 'varchar(50)'
-			)))
-			->addReference(Reference::create(array(
-				'key' => 'isAdmin',
-				'type' => 'boolean'
-			)))
-
+			->addReferences($this, array(
+				Reference::create(array(
+					'key' => 'id',
+					'type' => 'int'
+				)),
+				Reference::create(array(
+					'key' => 'name',
+					'type' => 'varchar(50)'
+				)),
+				Reference::create(array(
+					'key' => 'password',
+					'type' => 'varchar(50)'
+				)),
+				Reference::create(array(
+					'key' => 'isAdmin',
+					'type' => 'boolean'
+				))
+			))
 			// Relations
-			->addRelation(Relation::create(array(
-				'key' => 'group',
-				'type' => Relation::TYPE_ONE,
-				'model' => 'Group',
-				'localProperty' => 'id',
-				'foreignProperty' => 'userID'
-			)));
+			->addRelations($this, array(
+				Relation::create(array(
+					'key' => 'group',
+					'type' => Relation::TYPE_ONE,
+					'model' => 'Group',
+					'localProperty' => 'id',
+					'foreignProperty' => 'userID'
+				))
+			));
 	}
 }
