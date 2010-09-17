@@ -40,6 +40,7 @@ class MetaRegistry extends Registry
 				)),
 				Reference::create(array(
 					'key' => 'group_id',
+					'property' => 'groupID',
 					'type' => 'int'
 				)),
 				Reference::create(array(
