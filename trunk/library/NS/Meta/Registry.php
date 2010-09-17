@@ -120,4 +120,24 @@ class Registry extends Singleton
 		return isset($this->_relations[$className]) && isset($this->_relations[$className][$property]) ?
 			$this->_relations[$className][$property] : null;
 	}
+
+	/**
+	 * Retrieves relation between two models
+	 *
+	 * @param Model|string $model1
+	 * @param Model|string $model2
+	 * @return Relation
+	 */
+	public function getRelationBetween($model1, $model2)
+	{
+		$model1 = is_string($model1) ? $model1 : get_class($model1);
+		$model2 = is_string($model2) ? $model2 : get_class($model2);
+
+		if (isset($this->_relations[$model1]))
+			foreach ($this->_relations[$model1] as $rel)
+				if ($rel->getModel() == $model2)
+					return $rel;
+
+		return null;
+	}
 }

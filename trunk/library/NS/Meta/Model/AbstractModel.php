@@ -28,6 +28,7 @@ abstract class AbstractModel extends \NS\Core\Cls\Fluent
 	 */
 	public function setProperty($property, $value)
 	{
+		if ($property == 'property') return $this;
 		return call_user_func(array($this, 'set'.ucfirst($property)), $value);
 	}
 
@@ -39,6 +40,19 @@ abstract class AbstractModel extends \NS\Core\Cls\Fluent
 	 */
 	public function getProperty($property)
 	{
+		if ($property == 'property') return null;
 		return call_user_func(array($this, 'get'.ucfirst($property)));
+	}
+
+	/**
+	 * Sets property without calling set<Property> method
+	 *
+	 * @param string $property
+	 * @param mixed $value
+	 * @return AbstractModel
+	 */
+	public function setPropertyExact($property, $value)
+	{
+		$this->$property = $value;
 	}
 }
