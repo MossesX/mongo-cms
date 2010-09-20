@@ -116,7 +116,10 @@ class Registry extends Singleton
 	 */
 	public function getRelation($model, $property)
 	{
-		$className = is_string($model) ? $model : get_class($model);
+		if (is_a($model, '\NS\Meta\Model\Collection'))
+			$className = $model->getModel();
+		else
+			$className = is_string($model) ? $model : get_class($model);
 		return isset($this->_relations[$className]) && isset($this->_relations[$className][$property]) ?
 			$this->_relations[$className][$property] : null;
 	}

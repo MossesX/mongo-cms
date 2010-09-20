@@ -78,55 +78,6 @@ abstract class Collection extends AbstractModel implements \IteratorAggregate
 		return $res;
 	}
 
-	/**
-	 * Call
-	 *
-	 * @param string $name
-	 * @param array $arguments
-	 * @return mixed
-	 *
-	 * @thows \NS\Core\Cls\Exception\PropertyNotFound
-	 * @thows \NS\Core\Cls\Exception\MethodNotFound
-	 */
-	public function __call($name, $arguments)
-	{
-		$prefix = substr($name, 0, 3);
-		$relCollection = $arguments[0];
-		if ($prefix == 'set' && is_subclass_of($relCollection, '\NS\Meta\Model\Collection'))
-		{
-			// Meta registry
-			$registry = Registry::getInstance();
-
-			// Formatting property
-			$property = substr($name, 3);
-			$property = strtolower($property[0]) . substr($property, 1);
-
-			// Retrieving relation for property
-			$rel = $registry->getRelation($this->_model, $property);
-			if ($rel && $rel->getType() == Relation::TYPE_MANY)
-			{
-				$cls = get_class($relCollection);
-				foreach ($this as $model)
-				{
-					$col = $cls::create();
-
-					foreach ($relCollection as $relModel)
-					{
-						throw new \NS\Meta\Exception('Delegate it to Relation::fill');
-						if ($model->getProperty($rel->getLocalProperty()) == $relModel->getProperty($rel->getForeignProperty()))
-							$col->addModel($relModel);
-					}
-
-					if (count($col))
-						$model->setProperty($rel->getProperty(), $col);
-				}
-				return $this;
-			}
-		}
-
-		parent::__call($name, $arguments);
-	}
-
     // Required definition of interface IteratorAggregate
 	public function getIterator()
 	{

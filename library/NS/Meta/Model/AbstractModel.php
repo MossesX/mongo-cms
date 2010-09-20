@@ -2,8 +2,44 @@
 
 namespace NS\Meta\Model;
 
+use \NS\Meta\Registry;
+use \NS\Meta\Model\SetterStrategy\Factory;
+
 abstract class AbstractModel extends \NS\Core\Cls\Fluent
 {
+	/**
+	 * Call
+	 *
+	 * @param string $name
+	 * @param array $arguments
+	 * @return mixed
+	 */
+	public function __call($name, $arguments)
+	{
+		if (isset($arguments[0]))
+		{
+			$relModel = $arguments[0];
+			if (substr($name, 0, 3) == 'set')
+			{
+				// Meta registry
+				$registry = Registry::getInstance();
+
+				// Formatting property
+				$property = substr($name, 3);
+				$property = strtolower($property[0]) . substr($property, 1);
+
+				// Retrieving relation for property
+				$rel = $registry->getRelation($this, $property);
+				if ($rel)
+				{
+					Factory::create($this, $relModel, $rel)->set();
+					return $this;
+				}
+			}
+		}
+		return parent::__call($name, $arguments);
+	}
+
 	/**
 	 * Filling model properties from array
 	 *
@@ -53,6 +89,8 @@ abstract class AbstractModel extends \NS\Core\Cls\Fluent
 	 */
 	public function setPropertyExact($property, $value)
 	{
+		$property = '_' . $property;
 		$this->$property = $value;
+		return $this;
 	}
 }
