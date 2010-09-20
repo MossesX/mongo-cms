@@ -14,6 +14,15 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
+		/*$g = new Group();
+		$u = new UserCollection();
+		$r = new \NS\Meta\Property\Relation();
+		$s = \NS\Meta\Model\SetterStrategy\Factory::create($g, $u, $r);
+
+		$s->set();
+
+		die();*/
+
 		$users = new UserCollection(array(
 			array(
 				'id' => 1,
@@ -62,10 +71,45 @@ class IndexController extends Zend_Controller_Action
 			)
 		));
 
-		$groups->setUsers($users);
+		$group = new Group(array(
+			'id' => 1,
+			'name' => 'Admins'
+		));
 
-		?><pre><?
+		$user = new User(array(
+			'id' => 4,
+			'name' => 'SingleUser',
+			'group_id' => 1
+		));
+
+
+		?><h3><pre>$group->setUsers($users)</pre></h3><pre><?
+			$group->setUsers($users);
+			var_dump($group);
+		?></pre><?
+
+		?><h3><pre>$groups->setUsers($users)</pre></h3><pre><?
+			$groups->setUsers($users);
 			var_dump($groups);
+		?></pre><?
+
+		?><h3><pre>$user->setGroup($group)</pre></h3><pre><?
+			$user->setGroup($group);
+			var_dump($user);
+		?></pre><?
+
+		?><h3><pre>$user->setGroup($groups)</pre></h3><pre><?
+			$user->setGroup($groups);
+			var_dump($user);
+		?></pre><?
+
+		?><h3><pre>$users->setGroup($group)</pre></h3><pre><?
+			$users->setGroup($group);
+			var_dump($users);
+		?></pre><?
+
+		?><h3><pre>$users->setGroup($groups)</pre></h3><pre><?
+			$users->setGroup($groups);
 			var_dump($users);
 		?></pre><?
 

@@ -6,8 +6,22 @@ use \NS\Core\Cls\Fluent\Options;
 
 abstract class AbstractProperty extends Options
 {
+	/**
+	 * Property
+	 * @var string
+	 */
 	protected $_property;
+
+	/**
+	 * Array key
+	 * @var string
+	 */
 	protected $_key;
+
+	/**
+	 * Property type
+	 * @var mixed
+	 */
 	protected $_type;
 
 	/**
