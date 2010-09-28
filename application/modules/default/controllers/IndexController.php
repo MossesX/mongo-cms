@@ -14,6 +14,10 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
+		$service = new NS\DbInfo\Service('mysql://root:@localhost/cms4');
+		var_dump($service->getTables('cms4'));
+		die();
+
 		/*$g = new Group();
 		$u = new UserCollection();
 		$r = new \NS\Meta\Property\Relation();
