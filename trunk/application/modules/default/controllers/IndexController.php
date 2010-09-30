@@ -2,7 +2,7 @@
 
 //use Documents\Core\Language;
 
-use \NS\Meta\Model\Model;
+use NS\Meta\Model\Model;
 
 class IndexController extends Zend_Controller_Action
 {
@@ -14,8 +14,11 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
-		$service = new NS\DbInfo\Service('mysql://root:@localhost/cms4');
-		var_dump($service->getTables('cms4'));
+		//$service = new NS\DbInfo\Service('mysql://root:@localhost/cms4');
+		//var_dump($service->getTables('cms4'));
+
+		$s = new NS\Modules\Core\Services\Site();
+		var_dump($s->getSites());
 		die();
 
 		/*$g = new Group();
