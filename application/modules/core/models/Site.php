@@ -9,6 +9,4 @@ class Site extends Model
 	protected $_id;
 	protected $_title;
 	protected $_name;
-
-	
 }
