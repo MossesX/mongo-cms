@@ -2,10 +2,10 @@
 
 namespace NS\Meta\Model;
 
-use \NS\Core\Cls\Exception\ClassNotFound;
-use \NS\Meta\Registry;
-use \NS\Meta\Property\Reference;
-use \NS\Meta\Property\Relation;
+use NS\Core\Cls\Exception\ClassNotFound,
+	NS\Meta\Registry,
+	NS\Meta\Property\Reference,
+	NS\Meta\Property\Relation;
 
 abstract class Model extends AbstractModel
 {
@@ -16,14 +16,18 @@ abstract class Model extends AbstractModel
 	 */
 	public function __construct(array $properties = null)
 	{
-		// Meta registry initialization
-		if (!class_exists('\MetaRegistry'))
-			throw new ClassNotFound('\MetaRegistry');
-		\MetaRegistry::init();
+		$this->init();
 
-		// Trying to build model from array
 		if (!is_null($properties))
 			$this->fromArray($properties);
+	}
+
+	/**
+	 * Initialization
+	 *
+	 */
+	public function init()
+	{
 	}
 
 	/**

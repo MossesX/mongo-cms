@@ -12,15 +12,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	protected function _initLoader()
 	{
 		if (!class_exists('Zend_Loader_Autoloader'))
-			include_once 'Zend/Loader/Autoloader.php';
+			require_once 'Zend/Loader/Autoloader.php';
 		$autoloader = Zend_Loader_Autoloader::getInstance();
         $autoloader->setFallbackAutoloader(true);
+
+		// Modules autoload
+		$autoloader->pushAutoloader(function($name){
+			$sl = strrpos($name, '\\');
+			require_once realpath(APPLICATION_PATH . substr(strtolower($name), 2, $sl - 2) . '/' . substr($name, $sl + 1) . '.php');
+		}, 'NS\Modules');
 	}
 
 	protected function _initOptions()
 	{
 		Zend_Controller_Front::getInstance()
 			->addModuleDirectory(realpath(APPLICATION_PATH . '/modules'));
+	}
+
+	protected function _initDb()
+	{
+		$db = $this->getOption('db');
+		$dsn = new \NS\DbInfo\DSN($db['dsn']);
+		$options = array(
+			'host' => $dsn->getHost(),
+			'username' => $dsn->getUserName(),
+			'password' => $dsn->getPassword(),
+			'dbname' => $dsn->getDbName(),
+			'profiler' => false,
+			'cacheMetadata' => false,
+			'driver_options'=> array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8')
+		);
+		$db = Zend_Db::factory('PDO_MYSQL', $options);
+
+		\NS\Service\AbstractService::setDefaultAdapter($db);
+		
+		return $db;
 	}
 
 	protected function _i1nitDoctrineODM()
