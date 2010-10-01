@@ -61,5 +61,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		return $db;
 	}
+
+	/**
+	 * Routes initialization
+	 *
+	 */
+	protected function _initRoutes()
+	{
+		$routes = array();
+		foreach (NS\Service\AbstractService::getConfig() as $module => $config)
+			if ($config->routes)
+				foreach ($config->routes as $r => $routeConfig)
+					$routes[$module . '_' . $r] = $routeConfig->toArray();
+
+		$router = new Zend_Controller_Router_Rewrite();
+		$router->addRoutes($routes);
+		var_dump($router);
+	}
 }
 
