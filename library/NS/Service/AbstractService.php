@@ -73,4 +73,14 @@ abstract class AbstractService
 		
 		return self::$_config;
 	}
+
+	/**
+	 * Retrieves modules config
+	 *
+	 * @return Zend_Config
+	 */
+	public static function getConfig()
+	{
+		return self::$_config;
+	}
 }
