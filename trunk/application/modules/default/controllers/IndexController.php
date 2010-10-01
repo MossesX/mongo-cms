@@ -22,7 +22,8 @@ class IndexController extends Zend_Controller_Action
 		$siteService = new Services\Site();
 		$site = $siteService->getSite(array_pop($arr));
 
-		// 2. Detect page
+		// Detect page
+		
 
 		// 3. Action stack
 
@@ -31,7 +32,4 @@ class IndexController extends Zend_Controller_Action
 		
 		die();
 	}
-
-
 }
-

@@ -1,14 +1,11 @@
 <?php
 
-use Doctrine\Common\ClassLoader,
-	Doctrine\Common\Annotations\AnnotationReader,
-	Doctrine\ODM\MongoDB\Configuration,
-	Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver,
-	Doctrine\ODM\MongoDB\Mongo,
-	Doctrine\ODM\MongoDB\DocumentManager;
-
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+	/**
+	 * Classes autoload initialization
+	 *
+	 */
 	protected function _initLoader()
 	{
 		if (!class_exists('Zend_Loader_Autoloader'))
@@ -23,12 +20,28 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		}, 'NS\Modules');
 	}
 
+	/**
+	 * Options initialization
+	 * 
+	 */
 	protected function _initOptions()
 	{
+		// Options
+		$modulesDir = realpath(APPLICATION_PATH . '/modules');
+
+		// Modules dir
 		Zend_Controller_Front::getInstance()
-			->addModuleDirectory(realpath(APPLICATION_PATH . '/modules'));
+			->addModuleDirectory($modulesDir);
+
+		// Modules config files
+		NS\Service\AbstractService::loadConfig($modulesDir);
 	}
 
+	/**
+	 * Database initialization
+	 *
+	 * @return Zend_Db_Adapter_Abstract
+	 */
 	protected function _initDb()
 	{
 		$db = $this->getOption('db');
@@ -47,45 +60,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		\NS\Service\AbstractService::setDefaultAdapter($db);
 		
 		return $db;
-	}
-
-	protected function _i1nitDoctrineODM()
-	{
-		require_once 'Doctrine/Common/ClassLoader.php';
-
-		$classLoader = new ClassLoader('Doctrine\Common');
-		$classLoader->register();
-
-		$classLoader = new ClassLoader('Doctrine\ODM\MongoDB');
-		$classLoader->register();
-
-		//$classLoader = new ClassLoader('Symfony', __DIR__ . '/../../lib/vendor');
-		//$classLoader->register();
-
-		//$classLoader = new ClassLoader('Document\Core', APPLICATION_PATH . '/modules/default/models');
-		//$classLoader->register();
-
-		$classLoader = new ClassLoader(null, APPLICATION_PATH . '/modules/default/models');
-		$classLoader->register();
-
-		$config = new Configuration();
-
-		$config->setProxyDir(APPLICATION_PATH . '/data/proxies');
-		$config->setProxyNamespace('Proxies');
-		$config->setDefaultDB('cms');
-
-		/*
-		$config->setLoggerCallable(function(array $log) {
-			print_r($log);
-		});
-		$config->setMetadataCacheImpl(new ApcCache());
-		*/
-
-		$reader = new AnnotationReader();
-		$reader->setDefaultAnnotationNamespace('Doctrine\ODM\MongoDB\Mapping\\');
-		$config->setMetadataDriverImpl(new AnnotationDriver($reader, APPLICATION_PATH . '/modules/default/models'));
-
-		Zend_Registry::set('dm', DocumentManager::create(new Mongo(), $config));
 	}
 }
 
