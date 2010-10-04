@@ -12,7 +12,7 @@ class IndexController extends Zend_Controller_Action
 	public function indexAction()
 	{
 		// Detect a site
-		$arr = array(
+		/*$arr = array(
 			$this->_getParam('__siteID'),
 			$this->_getParam('__siteName'),
 			getenv('SITE_ID'),
@@ -20,7 +20,7 @@ class IndexController extends Zend_Controller_Action
 		);
 		sort($arr);
 		$siteService = new Services\Site();
-		$site = $siteService->getSite(array_pop($arr));
+		$site = $siteService->getSite(array_pop($arr));*/
 
 		// Detect page
 		
@@ -28,8 +28,5 @@ class IndexController extends Zend_Controller_Action
 		// 3. Action stack
 
 		// 4. Render
-
-		
-		die();
 	}
 }
