@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Сен 30 2010 г., 10:27
+-- Время создания: Окт 05 2010 г., 16:15
 -- Версия сервера: 5.1.47
 -- Версия PHP: 5.3.3
 
@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `core_page` (
   `core_page_id` int(5) unsigned DEFAULT NULL,
   `core_template_id` int(5) unsigned DEFAULT NULL,
   `core_site_id` int(5) unsigned NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_core_page_core_site` (`core_site_id`),
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `core_site` (
   `title` varchar(255) NOT NULL,
   `name` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -156,8 +157,8 @@ ALTER TABLE `core_block`
 -- Ограничения внешнего ключа таблицы `core_block_scheme`
 --
 ALTER TABLE `core_block_scheme`
-  ADD CONSTRAINT `fk_core_block_scheme_core_page` FOREIGN KEY (`core_page_id`) REFERENCES `core_page` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_core_block_scheme_core_block` FOREIGN KEY (`core_block_id`) REFERENCES `core_block` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_core_block_scheme_core_page` FOREIGN KEY (`core_page_id`) REFERENCES `core_page` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_core_block_scheme_core_site` FOREIGN KEY (`core_site_id`) REFERENCES `core_site` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
