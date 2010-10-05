@@ -77,6 +77,8 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 				foreach ($config->routes as $r => $routeConfig)
 					$router->addRoute($module . '_' . $r, \Zend_Controller_Router_Route::getInstance($routeConfig));
 
+		\Zend_Controller_Front::getInstance()->setRouter($router);
+
 		return $router;
 	}
 }

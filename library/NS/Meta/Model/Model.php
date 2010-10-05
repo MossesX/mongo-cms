@@ -94,4 +94,38 @@ abstract class Model extends AbstractModel
 		}
 		return $res;
 	}
+
+	/**
+	 * Add references
+	 *
+	 * @param array $references
+	 * @return Model
+	 */
+	protected function _addReferences(array $references)
+	{
+		$registry = Registry::getInstance();
+		foreach ($references as $reference){
+			if (is_array($reference))
+				$reference = new Reference($reference);
+			$registry->addReference($this, $reference);
+		}
+		return $this;
+	}
+
+	/**
+	 * Add relations
+	 *
+	 * @param array $relations
+	 * @return Model
+	 */
+	protected function _addRelations(array $relations)
+	{
+		$registry = Registry::getInstance();
+		foreach ($relations as $relation){
+			if (is_array($relation))
+				$relation = new Relation($relation);
+			$registry->addRelation($this, $relation);
+		}
+		return $this;
+	}
 }

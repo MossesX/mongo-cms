@@ -8,6 +8,8 @@ use NS\Modules\Core\Models\Site as ModelSite,
 
 class Site extends AbstractService
 {
+	protected $_module = 'core';
+
 	/**
 	 * Retrieves sites list
 	 *

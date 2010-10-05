@@ -23,6 +23,12 @@ abstract class AbstractService
 	protected $_db;
 
 	/**
+	 * Current module name
+	 * @var string
+	 */
+	protected $_module;
+
+	/**
 	 * Constructor
 	 *
 	 */
@@ -82,5 +88,15 @@ abstract class AbstractService
 	public static function getConfig()
 	{
 		return self::$_config;
+	}
+
+	/**
+	 * Retrieves current module config
+	 *
+	 * @return Zend_Config
+	 */
+	protected function _getConfig()
+	{
+		return self::$_config->get($this->_module);
 	}
 }
