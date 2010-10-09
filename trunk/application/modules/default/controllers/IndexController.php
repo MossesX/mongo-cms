@@ -46,15 +46,21 @@ class IndexController extends Zend_Controller_Action
 		// Setting site
 		$page->setSite($site);
 
-		//var_dump($page);
-
 		// Retrieving page blocks
 		$blockService = new Services\Block();
 		$blocks = $blockService->getPageBlocks($page->getId(), $site->getId());
 
-		var_dump($blocks);
+		// Blocks modules
+		$moduleService = new Services\Module();
+		$modules = $moduleService->getModules();
+		$modules->setBlock($blocks);
+		$blocks->setModule($modules);
 
 		// 3. Action stack
+		foreach ($blocks as $block){
+			var_dump();
+			//$this->_helper->actionStack('index', 'index', $block->getModule()->getName());
+		}
 
 		// 4. Render
 	}
