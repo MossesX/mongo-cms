@@ -12,7 +12,7 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
-		// Detect a site
+		// Retrieving site ID
 		$arr = array(
 			$this->_getParam('__siteID'),
 			$this->_getParam('__siteName'),
@@ -20,20 +20,39 @@ class IndexController extends Zend_Controller_Action
 			getenv('SITE_NAME')
 		);
 		sort($arr);
-		$siteService = new Services\Site();
-		$site = $siteService->getSite(array_pop($arr));
-		if (!$site)
-			throw new Core\Exception("Site detection error");
+		$siteID = array_pop($arr);
 
-		// Detect page
-		$pageID = $this->_getParam('__pageID');
+		// Services
+		$siteService = new Services\Site();
 		$pageService = new Services\Page();
-		$page = $pageService->getPage($pageID, $site->getId()) or $page = $pageService->getPage404();
+
+		// Retrieving site
+		$site = $siteService->getSite($siteID);
+		if ($site){
+			$pageID = $this->_getParam('__pageID');
+			$page = $pageService->getPage($pageID, $site->getId()) or $page = $pageService->getPage404();
+		}
+		else {
+			// 404 of a default site if site doesn't exist
+			$site = $siteService->getDefaultSite();
+			if (!$site)
+				throw new Core\Exception("Site detection error");
+			$page = $pageService->getPage404();
+		}
+	
 		if (!$page)
 			throw new Core\Exception("Page #$pageID doesn't exist");
+
+		// Setting site
 		$page->setSite($site);
 
-		var_dump($page);
+		//var_dump($page);
+
+		// Retrieving page blocks
+		$blockService = new Services\Block();
+		$blocks = $blockService->getPageBlocks($page->getId(), $site->getId());
+
+		var_dump($blocks);
 
 		// 3. Action stack
 

@@ -26,7 +26,8 @@ class Page extends Model
 				'type' => 'int'
 			),
 			array(
-				'key' => 'siteID',
+				'key' => 'core_site_id',
+				'property' => 'siteID',
 				'type' => 'int'
 			),
 			array(
