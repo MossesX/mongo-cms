@@ -10,6 +10,8 @@ use NS\Meta\Model\Model,
 class Page extends Model
 {
 	protected $_id;
+	protected $_pageID;
+	protected $_templateID;
 	protected $_siteID;
 	protected $_name;
 	protected $_title;
@@ -23,6 +25,16 @@ class Page extends Model
 		$this->_addReferences(array(
 			array(
 				'key' => 'id',
+				'type' => 'int'
+			),
+			array(
+				'key' => 'core_page_id',
+				'property' => 'pageID',
+				'type' => 'int'
+			),
+			array(
+				'key' => 'core_template_id',
+				'property' => 'templateID',
 				'type' => 'int'
 			),
 			array(
@@ -41,6 +53,13 @@ class Page extends Model
 		));
 
 		$this->_addRelations(array(
+			array(
+				'property' => 'template',
+				'type' => Relation::TYPE_ONE,
+				'model' => '\NS\Modules\Core\Model\Template',
+				'localProperty' => 'templateID',
+				'foreignProperty' => 'id'
+			),
 			array(
 				'property' => 'site',
 				'type' => Relation::TYPE_ONE,

@@ -27,6 +27,11 @@ class Block extends Model
 			'type' => 'int'
 		),
 		array(
+			'key' => 'core_area_id',
+			'property' => 'areaID',
+			'type' => 'int'
+		),
+		array(
 			'key' => 'title',
 			'type' => 'varchar(255)'
 		)

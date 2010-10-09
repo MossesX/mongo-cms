@@ -49,6 +49,16 @@ abstract class AbstractService
 	}
 
 	/**
+	 * Retrieves default db adapter
+	 *
+	 * @return mixed
+	 */
+	public static function getDefaultAdapter()
+	{
+		return self::$_defaultAdapter;
+	}
+
+	/**
 	 * Loads modules configs
 	 * 
 	 * @param string $modulesDir

@@ -56,9 +56,24 @@ class IndexController extends Zend_Controller_Action
 		$modules->setBlock($blocks);
 		$blocks->setModule($modules);
 
-		//var_dump(class_exists('News_IndexController'));
-		//var_dump(Zend_Controller_Front::getInstance()->getControllerDirectory());
-		//die();
+		// Template
+		$templateID = $page->getTemplateID() or $templateID = $site->getTemplateID();
+		$templateService = new Services\Template();
+		$template = $templateService->getTemplate($templateID);
+		if (!$template)
+			throw new Core\Exception("Template #$templateID doesn't exist");
+
+		$site->setTemplate($template);
+		$page->setTemplate($template);
+
+		// Areas
+		$areaService = new Services\Area();
+		$areas = $areaService->getAreas($templateID);
+		$blocks->setArea($areas);
+		$areas->setTemplate($template);
+
+		// Template layout
+		$this->_helper->layout->setLayout($template->getLayout());
 
 		// Action stack
 		foreach ($blocks as $block){
@@ -67,12 +82,16 @@ class IndexController extends Zend_Controller_Action
 			if (!Zend_Controller_Front::getInstance()->getDispatcher()->isValidModule($moduleName))
 				throw new Core\Cls\Exception("Module '$moduleName' is invalid");
 
+			// Setting layout segment
+			$this->getHelper('ViewRenderer')->setResponseSegment($block->getArea()->getName());
+
 			// Appending action to stack
-			//$request = clone $this->getRequest();
-			//$request->setModuleName($moduleName);
+			// TODO: possibility to reassign controller and action for modules (maybe block options)
 			$this->_helper->actionStack('index', 'index', $moduleName);
 		}
 
-		// 4. Render
+		$this->getHelper('ViewRenderer')->setNoRender();
+
+		//var_dump(\NS\Service\AbstractService::getDefaultAdapter()->getProfiler()->getQueryProfiles());
 	}
 }
