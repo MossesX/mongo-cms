@@ -56,10 +56,21 @@ class IndexController extends Zend_Controller_Action
 		$modules->setBlock($blocks);
 		$blocks->setModule($modules);
 
-		// 3. Action stack
+		//var_dump(class_exists('News_IndexController'));
+		//var_dump(Zend_Controller_Front::getInstance()->getControllerDirectory());
+		//die();
+
+		// Action stack
 		foreach ($blocks as $block){
-			var_dump();
-			//$this->_helper->actionStack('index', 'index', $block->getModule()->getName());
+			// Check if module is valid
+			$moduleName = $block->getModule()->getName();
+			if (!Zend_Controller_Front::getInstance()->getDispatcher()->isValidModule($moduleName))
+				throw new Core\Cls\Exception("Module '$moduleName' is invalid");
+
+			// Appending action to stack
+			//$request = clone $this->getRequest();
+			//$request->setModuleName($moduleName);
+			$this->_helper->actionStack('index', 'index', $moduleName);
 		}
 
 		// 4. Render
