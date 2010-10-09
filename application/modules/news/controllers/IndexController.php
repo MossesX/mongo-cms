@@ -10,9 +10,6 @@ class News_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-		var_dump($this->_helper->viewRenderer->render());
-
-		$this->view->render('index.phtml');
     }
 
 

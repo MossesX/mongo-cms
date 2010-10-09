@@ -51,7 +51,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 			'username' => $dsn->getUserName(),
 			'password' => $dsn->getPassword(),
 			'dbname' => $dsn->getDbName(),
-			'profiler' => false,
+			'profiler' => true,
 			'cacheMetadata' => false,
 			'driver_options'=> array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8')
 		);
@@ -80,5 +80,14 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 		\Zend_Controller_Front::getInstance()->setRouter($router);
 
 		return $router;
+	}
+
+	/**
+	 * Init view
+	 *
+	 */
+	protected function _initView()
+	{
+		Zend_Layout::startMvc();
 	}
 }

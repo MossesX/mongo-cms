@@ -3,15 +3,14 @@
 namespace NS\Modules\Core\Models;
 
 use NS\Meta\Model\Model,
-	NS\Meta\Registry,
-	NS\Meta\Property\Reference,
 	NS\Meta\Property\Relation;
 
-class Site extends Model
+class Area extends Model
 {
 	protected $_id;
 	protected $_templateID;
 	protected $_title;
+	protected $_name;
 
 	/**
 	 * References
@@ -30,6 +29,10 @@ class Site extends Model
 		array(
 			'key' => 'title',
 			'type' => 'varchar(255)'
+		),
+		array(
+			'key' => 'name',
+			'type' => 'varchar(255)'
 		)
 	);
 
@@ -38,13 +41,6 @@ class Site extends Model
 	 * @var array
 	 */
 	protected $_relations = array(
-		array(
-			'property' => 'pages',
-			'type' => Relation::TYPE_MANY,
-			'model' => '\NS\Modules\Core\Model\Page',
-			'localProperty' => 'id',
-			'foreignProperty' => 'siteID'
-		),
 		array(
 			'property' => 'template',
 			'type' => Relation::TYPE_ONE,
