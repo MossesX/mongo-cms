@@ -120,6 +120,10 @@ class Registry extends Singleton
 			$className = $model->getModel();
 		else
 			$className = is_string($model) ? $model : get_class($model);
+		
+		if ($className[0] == '\\')
+			$className = substr($className, 1);
+		
 		return isset($this->_relations[$className]) && isset($this->_relations[$className][$property]) ?
 			$this->_relations[$className][$property] : null;
 	}

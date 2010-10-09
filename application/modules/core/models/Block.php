@@ -41,7 +41,7 @@ class Block extends Model
 			'property' => 'module',
 			'type' => Relation::TYPE_ONE,
 			'model' => '\NS\Modules\Core\Model\Module',
-			'localProperty' => 'modelID',
+			'localProperty' => 'moduleID',
 			'foreignProperty' => 'id'
 		),
 		array(
