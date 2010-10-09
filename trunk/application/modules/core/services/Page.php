@@ -20,7 +20,7 @@ class Page extends AbstractService
 	public function getPage($id, $siteID = null)
 	{
 		if (!$id)
-			return null;
+			$id = $this->_getConfig()->general->index;
 
 		$select = $this->_db
 			->select()

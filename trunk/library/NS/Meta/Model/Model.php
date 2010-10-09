@@ -10,12 +10,30 @@ use NS\Core\Cls\Exception\ClassNotFound,
 abstract class Model extends AbstractModel
 {
 	/**
+	 * Relations
+	 * @var array
+	 */
+	protected $_relations = array();
+
+	/**
+	 * References
+	 * @var array
+	 */
+	protected $_references = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param array $properties
 	 */
 	public function __construct(array $properties = null)
 	{
+		$this->_addRelations($this->_relations);
+		$this->_addReferences($this->_references);
+
+		unset($this->_relations);
+		unset($this->_references);
+
 		$this->init();
 
 		if (!is_null($properties))
