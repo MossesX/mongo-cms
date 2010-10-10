@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Окт 09 2010 г., 19:22
+-- Время создания: Окт 09 2010 г., 23:02
 -- Версия сервера: 5.1.49
 -- Версия PHP: 5.3.3
 
@@ -45,10 +45,10 @@ CREATE TABLE IF NOT EXISTS `core_area` (
 DROP TABLE IF EXISTS `core_block`;
 CREATE TABLE IF NOT EXISTS `core_block` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
-  `core_module_id` int(5) unsigned NOT NULL,
+  `core_block_type_id` int(5) unsigned NOT NULL,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_core_block_core_module` (`core_module_id`)
+  KEY `fk_core_block_core_module` (`core_block_type_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
@@ -75,6 +75,24 @@ CREATE TABLE IF NOT EXISTS `core_block_scheme` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `core_block_type`
+--
+
+DROP TABLE IF EXISTS `core_block_type`;
+CREATE TABLE IF NOT EXISTS `core_block_type` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `core_module_id` int(5) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `module` varchar(255) DEFAULT NULL,
+  `controller` varchar(255) DEFAULT NULL,
+  `action` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_core_block_type_core_module` (`core_module_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `core_module`
 --
 
@@ -84,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `core_module` (
   `title` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -152,7 +170,7 @@ ALTER TABLE `core_area`
 -- Ограничения внешнего ключа таблицы `core_block`
 --
 ALTER TABLE `core_block`
-  ADD CONSTRAINT `fk_core_block_core_module` FOREIGN KEY (`core_module_id`) REFERENCES `core_module` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_core_block_core_block_type` FOREIGN KEY (`core_block_type_id`) REFERENCES `core_block_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `core_block_scheme`
@@ -162,6 +180,12 @@ ALTER TABLE `core_block_scheme`
   ADD CONSTRAINT `fk_core_block_scheme_core_block` FOREIGN KEY (`core_block_id`) REFERENCES `core_block` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_core_block_scheme_core_page` FOREIGN KEY (`core_page_id`) REFERENCES `core_page` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_core_block_scheme_core_site` FOREIGN KEY (`core_site_id`) REFERENCES `core_site` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `core_block_type`
+--
+ALTER TABLE `core_block_type`
+  ADD CONSTRAINT `fk_core_block_type_core_module` FOREIGN KEY (`core_module_id`) REFERENCES `core_module` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `core_page`

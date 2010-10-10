@@ -8,9 +8,11 @@ use NS\Meta\Model\Model,
 class Block extends Model
 {
 	protected $_id;
-	protected $_moduleID;
+	protected $_blockTypeID;
 	protected $_areaID;
 	protected $_title;
+
+	protected $_moduleID;
 
 	/**
 	 * References
@@ -22,8 +24,8 @@ class Block extends Model
 			'type' => 'int'
 		),
 		array(
-			'key' => 'core_module_id',
-			'property' => 'moduleID',
+			'key' => 'core_block_type_id',
+			'property' => 'blockTypeID',
 			'type' => 'int'
 		),
 		array(
@@ -34,6 +36,12 @@ class Block extends Model
 		array(
 			'key' => 'title',
 			'type' => 'varchar(255)'
+		),
+
+		array(
+			'key' => 'core_module_id',
+			'property' => 'moduleID',
+			'type' => 'int'
 		)
 	);
 
@@ -43,10 +51,10 @@ class Block extends Model
 	 */
 	protected $_relations = array(
 		array(
-			'property' => 'module',
+			'property' => 'blockType',
 			'type' => Relation::TYPE_ONE,
-			'model' => '\NS\Modules\Core\Model\Module',
-			'localProperty' => 'moduleID',
+			'model' => '\NS\Modules\Core\Model\BlockType',
+			'localProperty' => 'blockTypeID',
 			'foreignProperty' => 'id'
 		),
 		array(
@@ -54,6 +62,13 @@ class Block extends Model
 			'type' => Relation::TYPE_ONE,
 			'model' => '\NS\Modules\Core\Model\Area',
 			'localProperty' => 'areaID',
+			'foreignProperty' => 'id'
+		),
+		array(
+			'property' => 'module',
+			'type' => Relation::TYPE_ONE,
+			'model' => '\NS\Modules\Core\Model\Module',
+			'localProperty' => 'moduleID',
 			'foreignProperty' => 'id'
 		)
 	);
