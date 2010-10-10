@@ -23,7 +23,7 @@ class Block extends AbstractService
 		$select = $this->_db
 			->select()
 			->from('core_block AS b', array('b.*', 's.core_area_id'))
-			->joinInner('core_block_scheme AS s', 's.core_block_id = b.id')
+			->joinInner('core_block_scheme AS s', 's.core_block_id = b.id', array())
 			->where('core_page_id = ?', $pageID);
 
 		if (!\is_null($siteID))

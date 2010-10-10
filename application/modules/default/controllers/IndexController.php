@@ -50,11 +50,16 @@ class IndexController extends Zend_Controller_Action
 		$blockService = new Services\Block();
 		$blocks = $blockService->getPageBlocks($page->getId(), $site->getId());
 
+		// Block types
+		$blockTypeService = new Services\BlockType();
+		$blockTypes = $blockTypeService->getBlockTypes();
+		$blocks->setBlockType($blockTypes);
+
 		// Blocks modules
 		$moduleService = new Services\Module();
 		$modules = $moduleService->getModules();
 		$modules->setBlock($blocks);
-		$blocks->setModule($modules);
+		$blockTypes->setModule($modules);
 
 		// Template
 		$templateID = $page->getTemplateID() or $templateID = $site->getTemplateID();
@@ -77,17 +82,27 @@ class IndexController extends Zend_Controller_Action
 
 		// Action stack
 		foreach ($blocks as $block){
+			
+			$blockType = $block->getBlockType();
+
 			// Check if module is valid
-			$moduleName = $block->getModule()->getName();
+			$moduleName = $blockType->getModule()->getName();
 			if (!Zend_Controller_Front::getInstance()->getDispatcher()->isValidModule($moduleName))
-				throw new Core\Cls\Exception("Module '$moduleName' is invalid");
+				throw new Core\Exception("Module '$moduleName' is invalid");
 
 			// Setting layout segment
 			$this->getHelper('ViewRenderer')->setResponseSegment($block->getArea()->getName());
 
 			// Appending action to stack
-			// TODO: possibility to reassign controller and action for modules (maybe block options)
-			$this->_helper->actionStack('index', 'index', $moduleName);
+			$this->_helper->actionStack(
+				$blockType->getAction(),
+				$blockType->getController(),
+				$moduleName,
+				array(
+					'__site' => $site,
+					'__block' => $block
+				)
+			);
 		}
 
 		$this->getHelper('ViewRenderer')->setNoRender();
