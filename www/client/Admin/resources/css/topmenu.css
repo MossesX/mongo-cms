@@ -1,0 +1,31 @@
+.ns-topmenu-site {
+	background-image: url('/client/Admin/resources/images/icons/32/world_go.png') !important;
+}
+
+.ns-topmenu-content {
+	background-image: url('/client/Admin/resources/images/icons/32/page.png') !important;
+}
+
+.ns-topmenu-system {
+	background-image: url('/client/Admin/resources/images/icons/32/cog.png') !important;
+}
+
+.ns-topmenu-logoff {
+	background-image: url('/client/Admin/resources/images/icons/32/door_open.png') !important;
+}
+
+.ns-topmenu-flag-ru {
+	background-image: url('/client/Admin/resources/images/icons/32/flag_ru.png') !important;
+}
+
+.ns-topmenu-flag-en {
+	background-image: url('/client/Admin/resources/images/icons/32/flag_en.png') !important;
+}
+
+.ns-topmenu-flag-ru-16 {
+	background-image: url('/client/Admin/resources/images/icons/16/flag_ru.png') !important;
+}
+
+.ns-topmenu-flag-en-16 {
+	background-image: url('/client/Admin/resources/images/icons/16/flag_en.png') !important;
+}
