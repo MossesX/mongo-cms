@@ -1,28 +1,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru-ru" lang="ru-ru">
-
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="" />
-	<meta name="description" content="" />
-
-	<title><?=$this->title ? $this->escape($this->title) : ''?></title>
+	<title>Административная панель</title>
 
 	<?=$this->headLink()
-		//->appendStylesheet($this->baseUrl('css/style.css'))
-		//->appendStylesheet($this->baseUrl('css/item.css'))
+		->appendStylesheet('/client/ExtJS/resources/css/ext-all.css')
+		->appendStylesheet('/client/ExtJS/resources/css/xtheme-gray.css')
+
+		->appendStylesheet('/client/Admin/resources/css/topmenu.css')
+		->appendStylesheet('/client/Admin/resources/css/content_tree.css')
+		->appendStylesheet('/client/Admin/resources/css/content_page.css')
 	?>
 
 	<?=$this->headScript()
-		//->appendFile($this->baseUrl('js/mootools.js'))
-		//->appendFile($this->baseUrl('js/mootools-more.js'))
+		// ExtJS files
+		->appendFile('/client/ExtJS/adapter/ext/ext-base.js')
+		->appendFile('/client/ExtJS/ext-all.js')
+		->appendFile('/client/ExtJS/src/locale/ext-lang-ru.js')
+
+		// Client js
+		->appendFile('/client/Admin/src/App.js')
+		->appendFile('/client/Admin/src/Viewport.js')
+		->appendFile('/client/Admin/src/TopMenu.js')
 	?>
+
+	<script type="text/javascript">
+		Ext.onReady(function(){
+			Ext.BLANK_IMAGE_URL = '/client/ExtJS/resources/images/default/s.gif';
+			var app = new NS.App();
+		});
+	</script>
 </head>
 <body>
-	<div style="border: solid 1px #ccc;overflow: hidden;">
-		<p>Content area</p>
-		<?=$this->layout()->content?>
-	</div>
+	
 </body>
 </html>

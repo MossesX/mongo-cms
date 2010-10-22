@@ -1,0 +1,30 @@
+.ns-content-tree-folder {
+	background-image: url('/client/Admin/resources/images/icons/16/folder.png') !important;
+}
+
+.ns-content-tree-file {
+	background-image: url('/client/Admin/resources/images/icons/16/page_white.png') !important;
+}
+
+.ns-content-tree-page {
+	background-image: url('/client/Admin/resources/images/icons/16/page.png') !important;
+}
+
+.ns-content-tree-module {
+	background-image: url('/client/Admin/resources/images/icons/16/plugin.png') !important;
+}
+
+.x-tool-add {
+	background-image: url('/client/Admin/resources/images/icons/16/add.png') !important;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity:0.5;
+	opacity:0.5;
+}
+
+.x-tool-add-over {
+	filter:alpha(opacity=100);
+	-moz-opacity:1;
+	-khtml-opacity:1;
+	opacity:1;
+}
