@@ -48,3 +48,5 @@ NS.TopMenu = Ext.extend(Ext.Toolbar,{
 		NS.TopMenu.superclass.initComponent.apply(this, arguments);
 	}
 });
+
+Ext.reg('ns-topmenu', NS.TopMenu);
