@@ -14,6 +14,14 @@
 	background-image: url('/client/Admin/resources/images/icons/16/plugin.png') !important;
 }
 
+.ns-content-tree-add {
+	background-image: url('/client/Admin/resources/images/icons/16/add.png') !important;
+}
+
+.ns-content-tree-delete {
+	background-image: url('/client/Admin/resources/images/icons/16/cross.png') !important;
+}
+
 .x-tool-add {
 	background-image: url('/client/Admin/resources/images/icons/16/add.png') !important;
 	filter:alpha(opacity=50);

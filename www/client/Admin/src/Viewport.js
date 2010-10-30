@@ -10,7 +10,9 @@ NS.Viewport = Ext.extend(Ext.Viewport,{
 			layout: 'fit',
 			hideBorders: true,
 			items: {
-				tbar: new NS.TopMenu(),
+				tbar: {
+					xtype: 'ns-topmenu'
+				},
 				layout: 'card',
 				activeItem: 0,
 				hideBorders: true,
@@ -18,133 +20,67 @@ NS.Viewport = Ext.extend(Ext.Viewport,{
 					layout: 'border',
 					items: [{
 						region: 'west',
-						width: 200,
-						split: true,
-						layout: 'accordion',
-						layoutConfig: {
-							animate: true,
-							hideCollapseTool: true
+						border: false,
+						layout: {
+							type: 'vbox'
 						},
 						items: [{
-							tools: [{
-								id: 'add',
-								qtip: 'Добавить страницу'
-							}],
-							title: 'Страницы',
-							iconCls: 'ns-content-tree-page',
-							xtype: 'treepanel',
+							xtype: 'ns-pagestree',
 							border: false,
-							useArrows: true,
-							rootVisible: false,
-							root: {
-								nodeType: 'async',
-								children: [{
-									text: 'Page1',
-									iconCls: 'ns-content-tree-page',
-									children: [],
-									leaf: true
-								},{
-									text: 'Page2',
-									iconCls: 'ns-content-tree-page',
-									children: [{
-										text: 'Page3',
-										iconCls: 'ns-content-tree-page',
-										children: [],
-										leaf: true
-									},{
-										text: 'Page4',
-										iconCls: 'ns-content-tree-page',
-										children: [],
-										leaf: true
-									}]
-								}]
-							}
+							flex: 1
 						},{
-							title: 'Модули',
-							iconCls: 'ns-content-tree-module',
-							xtype: 'treepanel',
-							border: false,
-							useArrows: true,
-							rootVisible: false,
-							root: {
-								nodeType: 'async',
-								children: [{
-									text: 'Магазин',
-									iconCls: 'ns-content-tree-module',
-									children: [{
-										text: 'Товары',
-										iconCls: 'ns-content-tree-folder',
-										children: [{
-											text: 'Категория 1',
-											iconCls: 'ns-content-tree-folder',
-											children: [{
-												text: 'Товар 1',
-												iconCls: 'ns-content-tree-file',
-												children: [],
-												leaf: true
-											},{
-												text: 'Товар 2',
-												iconCls: 'ns-content-tree-file',
-												children: [],
-												leaf: true
-											},{
-												text: 'Товар 3',
-												iconCls: 'ns-content-tree-file',
-												children: [],
-												leaf: true
-											}]
-										},{
-											text: 'Категория 2',
-											iconCls: 'ns-content-tree-folder',
-											children: [],
-											leaf: true
-										},{
-											text: 'Категория 3',
-											iconCls: 'ns-content-tree-folder',
-											children: [],
-											leaf: true
-										}]
-									}]
-								}]
-							}
+							xtype: 'ns-buttonsbar',
+							items: [{
+								iconCls: 'ns-content-tree-add',
+								tooltip: 'Добавить страницу'
+							}, {
+								iconCls: 'ns-content-tree-delete',
+								tooltip: 'Удалить страницу',
+								disabled: true
+							}]
 						}]
 					},{
 						region: 'center',
-						xtype: 'tabpanel',
-						activeItem: 0,
-						resizeTabs: true,
-						items: [{
-							title: 'Свойства',
-							iconCls: 'ns-content-page-preferences',
-							xtype: 'form',
-							defaults: {
-								collapsible: true,
-								style: {
-									margin: '10px'
-								}
-							},
+						border: false,
+						layout: 'fit',
+						padding: 10,
+						items: {
+							flex: 1,
+							xtype: 'tabpanel',
+							activeItem: 0,
+							resizeTabs: true,
+							plain: true,
 							items: [{
-								xtype: 'fieldset',
-								title: 'Основные',
+								title: 'Свойства',
+								iconCls: 'ns-content-page-preferences',
+								xtype: 'form',
 								defaults: {
-									width: 200
+									collapsible: true,
+									style: {
+										margin: '10px'
+									}
 								},
 								items: [{
-									xtype: 'textfield',
-									fieldLabel: 'Название'
-								},{
-									xtype: 'combo',
-									fieldLabel: 'Шаблон'
+									xtype: 'fieldset',
+									title: 'Основные',
+									defaults: {
+										width: 200
+									},
+									items: [{
+										xtype: 'textfield',
+										fieldLabel: 'Название'
+									},{
+										xtype: 'combo',
+										fieldLabel: 'Шаблон'
+									}]
 								}]
+							},{
+								title: 'Блоки',
+								html: '2',
+								iconCls: 'ns-content-page-blocks'
 							}]
-						},{
-							title: 'Блоки',
-							html: '2',
-							iconCls: 'ns-content-page-blocks'
-						}]
+						}
 					}]
-				},{
-					html: '2'
 				}]
 			}
 		});
