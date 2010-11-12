@@ -19,12 +19,24 @@
 		->appendFile('/client/ExtJS/ext-all.js')
 		->appendFile('/client/ExtJS/src/locale/ext-lang-ru.js')
 
-		// Client js
+		// Admin panel js
 		->appendFile('/client/Admin/src/App.js')
 		->appendFile('/client/Admin/src/Viewport.js')
-		->appendFile('/client/Admin/src/TopMenu.js')
 		->appendFile('/client/Admin/src/ButtonsBar.js')
-		->appendFile('/client/Admin/src/PagesTree.js')
+
+		// Sections
+		->appendFile('/client/Admin/src/Com/Section/Abstract.js')
+		->appendFile('/client/Admin/src/Com/Section/Content.js')
+
+		// Top menu
+		->appendFile('/client/Admin/src/Com/TopMenu/Bar.js')
+		->appendFile('/client/Admin/src/Com/TopMenu/Button/Abstract.js')
+		->appendFile('/client/Admin/src/Com/TopMenu/Button/Tab.js')
+		->appendFile('/client/Admin/src/Com/TopMenu/Button/Status.js')
+
+		// Components
+		->appendFile('/client/Admin/src/Com/ContentTree.js')
+		->appendFile('/client/Admin/src/Com/ContentTreeItem.js')
 	?>
 
 	<script type="text/javascript">
